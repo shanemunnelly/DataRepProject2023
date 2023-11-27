@@ -38,6 +38,15 @@ const bookSchema = new mongoose.Schema({
 })
 
 const bookModel = mongoose.model('my_books', bookSchema);
+//This is the delete function 
+app.delete('/api/book/:id' , async (req,res)=> { 
+  console.log("Delete: " + req.params.id);
+//findbyIdandDelete will remove the book from the database based off the id entered
+  let book = await bookModel.findByIdAndDelete(req.params.id); 
+  res.send(book);
+
+})
+
 
 app.post('/api/book', (req,res)=>{
     console.log(req.body);
