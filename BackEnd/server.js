@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 const port = 4000
 const cors = require('cors');
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../build')));
+app.use('/static', express.static(path.join(__dirname, 'build//static')));
+
 
 
 app.use(cors());
@@ -84,6 +88,11 @@ app.put('/api/book/:identifier', async(req, res) => {
   let book = await bookModel.findByIdAndUpdate(req.params.identifier, req.body, {new:true} );
   res.send(book);
 })
+
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname+'/../build/index.html'));
+  });
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
